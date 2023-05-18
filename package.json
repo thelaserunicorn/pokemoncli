@@ -1,0 +1,25 @@
+{
+  "name": "pokemoncli",
+  "version": "1.0.0",
+  "description": "- Create a CLI (Command Line App) to download Pokemon info -Use the Pokemon API (pokeapi.co) to fetch stats and pictures - The user can choose to download any combination of: 1. Stats (as a text file) 2. Sprites (Up to 8 of the 2d sprite pictures for that pokemon) 3. Artwork (The official artwork for that pokemon)",
+  "main": "prompts.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thelaserunicorn/pokemoncli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/thelaserunicorn/pokemoncli/issues"
+  },
+  "homepage": "https://github.com/thelaserunicorn/pokemoncli#readme",
+  "dependencies": {
+    "inquirer": "^9.2.4",
+    "node-fetch": "^3.3.1"
+  }
+}
