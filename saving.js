@@ -3,6 +3,7 @@ import path from 'path'
 import fetch from 'node-fetch'
 import { fetchPokemon } from './prompts.js'
 
+
 const saveImageFile = async(filePath, arrayBuffer)=>{
     await fs.writeFile(filePath, Buffer.from(arrayBuffer))
 }
@@ -42,7 +43,28 @@ const savePokemonArtwork = async(folderName, pokemonSpritesObject)=>{
 
 }
 
+const savePokemonSprites = async(folderName, pokemonSpritesObject)=>{
+    let spritePromises = []
+    let spriteNames = []
+
+
+    for (const [name, url] of Object.entries(pokemonSpritesObject)){
+        if(name === "other" || name == 'versions') continue
+        if(!url) continue
+        spritePromises.push(fetch(url).then((res)=>res.arrayBuffer()))
+        spriteNames.push(name)
+    }
+
+    spritePromises = await Promise.all(spritePromises);
+    await createFolder(folderName)
+    for (let i = 0; i < spritePromises.length; i++) {
+        const filePath = path.join(process.cwd(), folderName, `${spriteNames[i]}.png`)
+        await saveImageFile(filePath, spritePromises[i])
+        console.log(`Saved: ${filePath}`)   
+    }
+}
 
 
 
-savePokemonArtwork("mew", pokemonObject.sprites)
+
+savePokemonSprites("mew", pokemonObject.sprites)
