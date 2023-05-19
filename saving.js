@@ -1,5 +1,6 @@
 import fs from 'fs/promises'
 import path from 'path'
+import { fetchPokemon } from './prompts.js'
 
 const createFolder = async(folderName)=>{
     const folderPath = path.join(process.cwd(), folderName)
@@ -9,4 +10,19 @@ const createFolder = async(folderName)=>{
         fs.mkdir(folderName)
     }
 }
-createFolder("Test")
+
+
+const pokemonObject = await fetchPokemon("mewtwo")
+
+const savePokemonStats = async(folderName, pokemonStatsObject)=>{
+    let statString = ""
+    for(const stat of  pokemonStatsObject){
+        statString += `${stat.stat.name}: ${stat.base_stat}\n`
+    }
+    console.log(statString)
+    await createFolder(folderName)
+    const filePath = path.join(process.cwd(), folderName, "stats.txt")
+    await fs.writeFile(filePath, statString)
+}
+
+savePokemonStats("mewtwo", pokemonObject.stats)
