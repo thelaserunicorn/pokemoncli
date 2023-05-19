@@ -42,4 +42,7 @@ const savePokemonArtwork = async(folderName, pokemonSpritesObject)=>{
 
 }
 
+
+
+
 savePokemonArtwork("mew", pokemonObject.sprites)
