@@ -1,5 +1,6 @@
 import fetch from "node-fetch"
 import inquirer from "inquirer"
+import  {parseOptions} from "./saving.js"
 
 const promptForPokemon = async() => {
     return await inquirer.prompt({
@@ -45,21 +46,18 @@ const fetchPokemon = async(pokemonName)=>{
     return json
 }
 
-const promptUser = async() => {
-    while(true){
-        const pokemonName = await promptForPokemon()
-        console.log(pokemonName.pokemon_name)
-        const pokemonJSON = await fetchPokemon(pokemonName.pokemon_name)
-        console.log(pokemonJSON.name, pokemonJSON.weight)
-        const pokemonOptions = await promptForDownloadInfo()
-        console.log(pokemonOptions.options)
-        const keepGoing = await promptToContinue()
-        if(keepGoing.continue == "No") break
-        
-
+const promptUser = async () => {
+    while (true) {
+      const pokemonName = await promptForPokemon();
+      // fetch the pokemon json
+      const pokemonJSON = await fetchPokemon(pokemonName.pokemon_name);
+      const pokemonOptions = await promptForDownloadInfo();
+      // use what is in these options to fetch the pictures/sprites
+      await parseOptions(pokemonJSON, pokemonOptions);
+      // save them to the local disk
+      const keepGoing = await promptToContinue();
+      if (keepGoing.continue === "No") break;
     }
-}
+  };
 
-// promptUser()
-
-export {fetchPokemon}
+export {promptUser}
